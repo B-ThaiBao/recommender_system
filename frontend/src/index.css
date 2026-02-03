@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --color-silver-50: #fcfcfd;
+  --color-silver-100: #f4f5f8;
+  --color-silver-200: #e5e7eb;
+  --color-silver-300: #d7dadf;
+  --color-silver-400: #9ca3af;
+  --color-silver-500: #6b7280;
+  --color-silver-600: #4b5563;
+  --color-silver-800: #27272a;
+  --color-silver-900: #18181b;
+
+  --color-pastel-pink: #ffe4e6;
+  --color-pastel-pinkLight: #fff1f2;
+  --color-pastel-pinkDeep: #fda4af;
+  --color-pastel-purple: #f3e8ff;
+  --color-pastel-blue: #e0f2fe;
+  --color-pastel-glow: rgba(255, 228, 230, 0.5);
+}
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-pastel-pinkLight via-silver-100 to-pastel-blue min-h-screen text-silver-800 antialiased selection:bg-pastel-pinkDeep selection:text-white;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-xl border border-white/50 shadow-lg shadow-silver-200/50;
+  }
+
+  .glass-input {
+    @apply bg-white/50 border border-white/50 focus:bg-white focus:border-pastel-pinkDeep/50 transition-all duration-300 placeholder:text-silver-400;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-silver-800 to-silver-600 text-white shadow-lg shadow-silver-400/30 hover:shadow-silver-400/50 hover:scale-[1.02] active:scale-95 transition-all duration-300;
+  }
+
+  .btn-pastel {
+    @apply bg-white/80 text-silver-800 hover:bg-white shadow-sm hover:shadow-md border border-white/60 transition-all;
+  }
+}
