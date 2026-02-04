@@ -1,26 +1,62 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Send, Bot, User, Menu, Plus, Moon, Sun } from "lucide-react";
+import { Menu, Plus } from "lucide-react";
+import BotPNG from "./chatbox.png";
+
+/* =======================
+   BOT PNG COMPONENT
+======================= */
+const BotPNGIcon = ({ mood = "idle", size = 64 }) => {
+  const moodClass =
+    mood === "thinking"
+      ? "animate-bounce"
+      : mood === "happy"
+      ? "animate-[pulse_1.2s_ease-in-out_1]"
+      : "";
+
+  return (
+    <div
+      className={`relative flex flex-col items-center ${moodClass}`}
+      style={{ width: size }}
+    >
+      <img
+        src={BotPNG}
+        alt="AI Bot"
+        className="w-full h-auto select-none"
+        draggable={false}
+      />
+
+      {/* Thinking dots */}
+      {mood === "thinking" && (
+        <div className="flex gap-1 mt-1">
+          <span className="w-2 h-2 bg-pastel-pinkDeep rounded-full animate-bounce" />
+          <span className="w-2 h-2 bg-pastel-pinkDeep rounded-full animate-bounce delay-150" />
+          <span className="w-2 h-2 bg-pastel-pinkDeep rounded-full animate-bounce delay-300" />
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* =======================
+        CHATBOT
+======================= */
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([
     {
       id: 1,
       type: "bot",
-      text: "Hi 👋 I'm your AI Career Assistant. Ask me about majors, universities, or career paths!",
+      text: "Hi 👋 I’m your AI Career Assistant. Ask me about majors, universities, or career paths.",
     },
   ]);
   const [input, setInput] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
+  const [botMood, setBotMood] = useState("happy");
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", darkMode);
-  }, [darkMode]);
 
   const handleSend = (e) => {
     e.preventDefault();
@@ -31,6 +67,7 @@ const Chatbot = () => {
       { id: Date.now(), type: "user", text: input },
     ]);
     setInput("");
+    setBotMood("thinking");
 
     setTimeout(() => {
       setMessages((prev) => [
@@ -38,57 +75,37 @@ const Chatbot = () => {
         {
           id: Date.now() + 1,
           type: "bot",
-          text: "I'm thinking about your question 🤔 (demo response)",
+          text:
+            "Thanks for your question 🌸 I’ll help you explore suitable career options.",
         },
       ]);
-    }, 800);
+      setBotMood("happy");
+    }, 900);
   };
 
   return (
-    <div className="h-screen flex bg-slate-100 dark:bg-slate-900 transition-colors">
+    <div className="h-screen flex bg-silver-100">
       {/* ================= Sidebar ================= */}
       <aside
         className={`${
           isSidebarOpen ? "w-64" : "w-0"
-        } transition-all overflow-hidden
-        bg-white/70 dark:bg-slate-800/80
-        backdrop-blur-xl border-r border-white/40 dark:border-slate-700`}
+        } transition-all duration-300 overflow-hidden
+        bg-silver-50 border-r border-silver-200`}
       >
-        <div className="p-4 border-b border-white/40 dark:border-slate-700 flex justify-between items-center">
-          <button className="flex items-center gap-2 px-3 py-2 rounded-xl
-            bg-white/80 dark:bg-slate-700
-            text-slate-700 dark:text-slate-200 shadow-sm">
+        <div className="p-4 border-b border-silver-200">
+          <button
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-xl
+            bg-pastel-pinkLight text-slate-700
+            hover:bg-pastel-pink transition shadow-sm"
+          >
             <Plus className="w-4 h-4" />
             New chat
           </button>
-
-          {/* Dark toggle */}
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="p-2 rounded-lg bg-white/70 dark:bg-slate-700"
-          >
-            {darkMode ? (
-              <Sun className="w-4 h-4 text-yellow-400" />
-            ) : (
-              <Moon className="w-4 h-4 text-slate-600" />
-            )}
-          </button>
         </div>
 
-        <div className="p-4 space-y-2">
-          <p className="text-xs uppercase tracking-wider text-slate-400">
-            Recent
-          </p>
-          <button className="w-full text-left px-3 py-2 rounded-lg
-            text-slate-600 dark:text-slate-300
-            hover:bg-white/60 dark:hover:bg-slate-700">
-            Career in AI
-          </button>
-        </div>
-
-        <div className="absolute bottom-0 w-full p-4 border-t border-white/40 dark:border-slate-700">
-          <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-            <Bot className="w-4 h-4 text-indigo-400" />
+        <div className="absolute bottom-0 w-full p-4 border-t border-silver-200">
+          <div className="flex items-center gap-2 text-sm text-slate-500">
+            <img src={BotPNG} alt="AI" className="w-7 h-7" />
             AI Assistant v1.0
           </div>
         </div>
@@ -96,14 +113,13 @@ const Chatbot = () => {
 
       {/* ================= Main ================= */}
       <main className="flex-1 flex flex-col relative">
-        {/* Mobile menu */}
         {!isSidebarOpen && (
           <button
             onClick={() => setIsSidebarOpen(true)}
             className="absolute top-4 left-4 z-10 p-2 rounded-lg
-            bg-white/80 dark:bg-slate-800 border border-white/40 dark:border-slate-700"
+            bg-silver-50 border border-silver-200 shadow-sm"
           >
-            <Menu className="w-4 h-4 text-slate-600 dark:text-slate-300" />
+            <Menu className="w-4 h-4 text-slate-600" />
           </button>
         )}
 
@@ -118,29 +134,23 @@ const Chatbot = () => {
                 }`}
               >
                 {msg.type === "bot" && (
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center
-                    bg-gradient-to-br from-indigo-500 to-cyan-500 shadow-lg">
-                    <Bot className="w-5 h-5 text-white" />
-                  </div>
+                  <BotPNGIcon mood={botMood} size={64} />
                 )}
 
                 <div
-                  className={`px-5 py-3 rounded-2xl max-w-[78%]
-                    ${
-                      msg.type === "user"
-                        ? "bg-indigo-600 text-white shadow-lg"
-                        : "bg-white/80 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-white/40 dark:border-slate-700"
-                    }`}
+                  className={`px-5 py-3 rounded-2xl max-w-[78%] text-sm md:text-base
+                  ${
+                    msg.type === "user"
+                      ? "bg-indigo-500 text-white shadow-md"
+                      : "bg-pastel-pinkLight text-slate-700 border border-pastel-pink"
+                  }`}
                 >
-                  <p className="text-sm md:text-base leading-relaxed">
-                    {msg.text}
-                  </p>
+                  {msg.text}
                 </div>
 
                 {msg.type === "user" && (
-                  <div className="w-8 h-8 rounded-full bg-slate-300 dark:bg-slate-700
-                    flex items-center justify-center">
-                    <User className="w-4 h-4 text-slate-700 dark:text-slate-300" />
+                  <div className="w-10 h-10 rounded-full bg-silver-200 flex items-center justify-center text-slate-600 text-sm">
+                    You
                   </div>
                 )}
               </div>
@@ -149,38 +159,35 @@ const Chatbot = () => {
           </div>
         </div>
 
-        {/* ================= Input ================= */}
-        <div className="border-t border-white/40 dark:border-slate-700
-          bg-white/70 dark:bg-slate-800 backdrop-blur-xl px-4 py-4">
+        {/* Input */}
+        <div className="border-t border-silver-200 bg-silver-50 px-4 py-4">
           <form
             onSubmit={handleSend}
-            className="max-w-3xl mx-auto relative"
+            className="max-w-3xl mx-auto flex gap-2"
           >
             <input
-              type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask me anything..."
-              className="w-full pl-6 pr-16 py-4 rounded-2xl
-                bg-white/80 dark:bg-slate-700
-                text-slate-800 dark:text-slate-100
-                placeholder-slate-400 dark:placeholder-slate-400
-                shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+              placeholder="Ask me anything about your future..."
+              className="flex-1 px-5 py-3 rounded-full
+              bg-silver-100 border border-silver-200
+              focus:outline-none focus:ring-2 focus:ring-pastel-pinkDeep/40"
             />
             <button
               type="submit"
               disabled={!input.trim()}
-              className="absolute right-3 top-1/2 -translate-y-1/2
-                p-3 rounded-xl bg-indigo-600 text-white
-                hover:bg-indigo-700 active:scale-95
-                shadow-lg disabled:opacity-40"
+              className="px-6 py-3 rounded-full
+              bg-pastel-pinkDeep text-white
+              shadow-md hover:shadow-[0_0_14px_rgba(255,182,193,0.9)]
+              active:scale-95 transition disabled:opacity-40"
             >
-              <Send className="w-4 h-4" />
+              Send
             </button>
           </form>
 
           <p className="text-center text-xs text-slate-400 mt-2">
-            AI may generate incorrect information. Please verify important details.
+            AI may generate incorrect information. Please verify important
+            details.
           </p>
         </div>
       </main>
