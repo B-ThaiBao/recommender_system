@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Menu, Plus } from "lucide-react";
+import ReactMarkdown from "react-markdown"; // THÊM IMPORT NÀY
 import BotPNG from "./chatbox.png";
+import { ENDPOINTS } from "../config/api";
 
 /* =======================
    BOT PNG COMPONENT
@@ -42,54 +44,121 @@ const BotPNGIcon = ({ mood = "idle", size = 64 }) => {
 ======================= */
 
 const Chatbot = () => {
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      type: "bot",
-      text: "Hi 👋 I’m your AI Career Assistant. Ask me about majors, universities, or career paths.",
-    },
-  ]);
+  const CHATBOT_API_URL = ENDPOINTS.chatbot.chat;
+  const CHATBOT_SESSIONS_URL = ENDPOINTS.chatbot.sessions;
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [botMood, setBotMood] = useState("happy");
+  const [isLoading, setIsLoading] = useState(false);
+  const [sessionId, setSessionId] = useState(null);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleSend = (e) => {
+  useEffect(() => {
+    const createSession = async () => {
+      try {
+        const response = await fetch(CHATBOT_SESSIONS_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ title: "Insight career session" }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Session creation failed");
+        }
+
+        const payload = await response.json();
+        setSessionId(payload.session_id);
+        setMessages([
+          {
+            id: Date.now(),
+            type: "bot",
+            text: payload.welcome_message || "Hi 👋 I’m your AI Career Assistant. Ask me about majors, universities, or career paths.",
+          },
+        ]);
+      } catch {
+        setSessionId(null);
+        setMessages([
+          {
+            id: Date.now(),
+            type: "bot",
+            text: "Hi 👋 I’m your AI Career Assistant. Ask me about majors, universities, or career paths.",
+          },
+        ]);
+      }
+    };
+
+    createSession();
+  }, [CHATBOT_SESSIONS_URL]);
+
+  const handleSend = async (e) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    const userMessage = input.trim();
+    if (!userMessage || isLoading) return;
 
     setMessages((prev) => [
       ...prev,
-      { id: Date.now(), type: "user", text: input },
+      { id: Date.now(), type: "user", text: userMessage },
     ]);
     setInput("");
     setBotMood("thinking");
+    setIsLoading(true);
 
-    setTimeout(() => {
+    try {
+      const endpoint = sessionId
+        ? `${CHATBOT_SESSIONS_URL}/${sessionId}/messages`
+        : CHATBOT_API_URL;
+
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: userMessage }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Chat API error: ${response.status}`);
+      }
+
+      const result = await response.json();
       setMessages((prev) => [
         ...prev,
         {
           id: Date.now() + 1,
           type: "bot",
-          text:
-            "Thanks for your question 🌸 I’ll help you explore suitable career options.",
+          text: result.reply || "Mình chưa có câu trả lời phù hợp, bạn hỏi lại giúp mình nhé.",
         },
       ]);
+    } catch (error) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now() + 1,
+          type: "bot",
+          text: "Hiện tại chatbot đang bận hoặc chưa cấu hình API key. Bạn kiểm tra backend rồi thử lại nhé.",
+        },
+      ]);
+      console.error(error);
+    } finally {
       setBotMood("happy");
-    }, 900);
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="h-screen flex bg-silver-100">
+    <div className="min-h-[560px] h-[calc(100vh-12rem)] flex bg-silver-100 rounded-2xl border border-silver-200 overflow-hidden">
       {/* ================= Sidebar ================= */}
       <aside
         className={`${
           isSidebarOpen ? "w-64" : "w-0"
-        } transition-all duration-300 overflow-hidden
+        } relative transition-all duration-300 overflow-hidden
         bg-silver-50 border-r border-silver-200`}
       >
         <div className="p-4 border-b border-silver-200">
@@ -145,7 +214,22 @@ const Chatbot = () => {
                       : "bg-pastel-pinkLight text-slate-700 border border-pastel-pink"
                   }`}
                 >
-                  {msg.text}
+                  {/* TÍCH HỢP REACT MARKDOWN Ở ĐÂY */}
+                  {msg.type === "bot" ? (
+                    <ReactMarkdown
+                      components={{
+                        p: ({ node, ...props }) => <p className="mb-3 last:mb-0 leading-relaxed" {...props} />,
+                        strong: ({ node, ...props }) => <strong className="font-bold text-slate-800" {...props} />,
+                        ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-3 space-y-1" {...props} />,
+                        ol: ({ node, ...props }) => <ol className="list-decimal pl-5 mb-3 space-y-1" {...props} />,
+                        li: ({ node, ...props }) => <li {...props} />,
+                      }}
+                    >
+                      {msg.text}
+                    </ReactMarkdown>
+                  ) : (
+                    <div className="whitespace-pre-wrap">{msg.text}</div>
+                  )}
                 </div>
 
                 {msg.type === "user" && (
@@ -175,13 +259,13 @@ const Chatbot = () => {
             />
             <button
               type="submit"
-              disabled={!input.trim()}
+              disabled={!input.trim() || isLoading}
               className="px-6 py-3 rounded-full
               bg-pastel-pinkDeep text-white
               shadow-md hover:shadow-[0_0_14px_rgba(255,182,193,0.9)]
               active:scale-95 transition disabled:opacity-40"
             >
-              Send
+              {isLoading ? "Sending..." : "Send"}
             </button>
           </form>
 

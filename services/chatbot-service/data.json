@@ -1,0 +1,128 @@
+[
+  {
+    "career_id": "IT_SWE_01",
+    "career_name": "Software Engineer (Backend Developer)",
+    "domain": "Information Technology",
+    "brief_description": "Xây dựng 'bộ não' và logic xử lý ngầm của các ứng dụng, đảm bảo hệ thống chịu tải cao, bảo mật và lưu trữ dữ liệu an toàn.",
+    "psychometrics_profile": {
+      "holland_codes": ["I", "R", "C"],
+      "big_five_traits": {
+        "openness": "Cao (Liên tục cập nhật framework/ngôn ngữ mới)",
+        "conscientiousness": "Rất cao (Cẩn thận, viết code ít bug, tuân thủ clean code)",
+        "extraversion": "Trung bình - Thấp (Làm việc độc lập nhiều với máy tính)"
+      }
+    },
+    "bloom_competency_requirements": [
+      {
+        "skill": "Debug & Khắc phục sự cố (Troubleshooting)",
+        "level": 4,
+        "bloom_stage": "Phân tích (Analyze)",
+        "description": "Khả năng đọc log hệ thống, chia nhỏ luồng dữ liệu để tìm ra chính xác dòng code gây ra lỗi (bottleneck)."
+      },
+      {
+        "skill": "Thiết kế Kiến trúc (System Design)",
+        "level": 6,
+        "bloom_stage": "Sáng tạo (Create)",
+        "description": "Tự thiết kế mô hình cơ sở dữ liệu và luồng Microservices cho một ứng dụng có thể chịu tải 100,000 user cùng lúc."
+      }
+    ],
+    "market_data_vietnam": {
+      "salary_range_vnd_monthly": {
+        "fresher_under_1_year": "10,000,000 - 15,000,000",
+        "junior_1_to_3_years": "18,000,000 - 30,000,000",
+        "senior_over_5_years": "45,000,000 - 80,000,000+"
+      },
+      "growth_trend": "Tăng trưởng ổn định, nhu cầu cực cao cho các dev có kiến thức về Cloud (AWS) và tích hợp AI.",
+      "data_source_reference": "ITviec IT Salary Report 2024-2025"
+    },
+    "the_ugly_truth": [
+      "Công việc vô hình: Sếp/Khách hàng chỉ nhìn thấy UI đẹp, nhưng nếu server sập lúc nửa đêm, Backend là người bị gọi dậy đầu tiên.",
+      "Áp lực học tập tàn khốc: Công nghệ lỗi thời sau mỗi 2-3 năm. Không học là bị đào thải bởi lứa trẻ (hoặc bởi chính AI).",
+      "Rủi ro sức khỏe: Đau mỏi vai gáy, khô mắt và các bệnh về tiêu hóa do ngồi code liên tục nhiều giờ."
+    ]
+  },
+  {
+    "career_id": "IT_DATA_02",
+    "career_name": "Data Analyst (Chuyên viên Phân tích Dữ liệu)",
+    "domain": "IT & Business (Cross-functional)",
+    "brief_description": "Thu thập, làm sạch và phân tích dữ liệu để tìm ra các xu hướng ẩn, giúp Ban Giám đốc đưa ra quyết định kinh doanh sinh lời.",
+    "psychometrics_profile": {
+      "holland_codes": ["I", "C", "E"],
+      "big_five_traits": {
+        "openness": "Cao (Sáng tạo trong cách trực quan hóa dữ liệu)",
+        "conscientiousness": "Rất cao (Chính xác tuyệt đối với con số, sai 1 số là sai cả báo cáo)",
+        "neuroticism": "Thấp (Cần giữ bình tĩnh trước khối lượng dữ liệu khổng lồ)"
+      }
+    },
+    "bloom_competency_requirements": [
+      {
+        "skill": "Khai phá Dữ liệu (Data Mining & SQL)",
+        "level": 3,
+        "bloom_stage": "Vận dụng (Apply)",
+        "description": "Viết các câu lệnh SQL phức tạp để trích xuất đúng tập dữ liệu cần thiết từ hệ thống Database hàng triệu dòng."
+      },
+      {
+        "skill": "Cố vấn Kinh doanh (Business Insight Generation)",
+        "level": 5,
+        "bloom_stage": "Đánh giá (Evaluate)",
+        "description": "Nhìn vào biểu đồ doanh thu tụt giảm, đánh giá nguyên nhân cốt lõi và đề xuất giải pháp cho Ban quản trị."
+      }
+    ],
+    "market_data_vietnam": {
+      "salary_range_vnd_monthly": {
+        "fresher_under_1_year": "10,000,000 - 14,000,000",
+        "junior_1_to_3_years": "16,000,000 - 25,000,000",
+        "senior_over_5_years": "35,000,000 - 60,000,000+"
+      },
+      "growth_trend": "Bùng nổ mạnh mẽ trong ngành Tài chính, E-commerce và Retail.",
+      "data_source_reference": "TopCV Vietnam Tech Market Report"
+    },
+    "the_ugly_truth": [
+      "Quy luật 80/20: 80% thời gian làm việc là 'làm thợ' (cào, dọn dẹp, chuẩn hóa dữ liệu rác), chỉ 20% là phân tích và làm model xịn xò.",
+      "Garbage In, Garbage Out: Đôi khi các bộ phận khác nhập sai dữ liệu, nhưng Data Analyst lại là người phải chịu trách nhiệm cho báo cáo cuối cùng.",
+      "Bất đồng ngôn ngữ: Rất khó để giải thích các mô hình thống kê phức tạp cho các sếp chỉ hiểu về kinh doanh (Non-tech)."
+    ]
+  },
+  {
+    "career_id": "BIZ_MKT_01",
+    "career_name": "Performance Marketing Specialist",
+    "domain": "Marketing & Business",
+    "brief_description": "Chạy quảng cáo kỹ thuật số (Facebook, Google, TikTok), tối ưu hóa tỷ lệ chuyển đổi và mang lại doanh thu trực tiếp với chi phí thấp nhất.",
+    "psychometrics_profile": {
+      "holland_codes": ["E", "C", "I"],
+      "big_five_traits": {
+        "extraversion": "Trung bình (Làm việc nhiều với màn hình số liệu hơn là đi giao tiếp trực tiếp)",
+        "neuroticism": "Rất thấp (Phải có tinh thần thép khi tiêu hàng tỷ đồng tiền quảng cáo của công ty mỗi ngày)",
+        "agreeableness": "Trung bình (Cần cứng rắn bảo vệ ngân sách)"
+      }
+    },
+    "bloom_competency_requirements": [
+      {
+        "skill": "Vận hành Chiến dịch (Campaign Execution)",
+        "level": 3,
+        "bloom_stage": "Vận dụng (Apply)",
+        "description": "Thiết lập các thông số target đối tượng, ngân sách, và phân phối A/B testing trên các nền tảng quảng cáo."
+      },
+      {
+        "skill": "Tối ưu hóa Tỷ suất hoàn vốn (ROAS Optimization)",
+        "level": 5,
+        "bloom_stage": "Đánh giá (Evaluate)",
+        "description": "Phân tích hàng loạt chỉ số (CPA, CPC, CTR), đánh giá xem nên 'tắt' hay 'bơm tiền' vào tệp khách hàng nào để tối đa lợi nhuận."
+      }
+    ],
+    "market_data_vietnam": {
+      "salary_range_vnd_monthly": {
+        "fresher_under_1_year": "8,000,000 - 12,000,000",
+        "junior_1_to_3_years": "15,000,000 - 25,000,000",
+        "senior_over_5_years": "30,000,000 - 50,000,000 (Chưa tính % thưởng doanh số)"
+      },
+      "growth_trend": "Nhu cầu luôn có, nhưng cạnh tranh khốc liệt. Các công ty ưu tiên người có thể đo lường trực tiếp ra doanh thu.",
+      "data_source_reference": "Vietnam Digital Marketing Salary Report 2024-2025"
+    },
+    "the_ugly_truth": [
+      "Ám ảnh con số: Mở mắt ra là check chỉ số tiền rớt, tài khoản quảng cáo bị khóa (die camp) là mất ăn mất ngủ.",
+      "Lệ thuộc vào thuật toán: Thuật toán Facebook/TikTok đổi nhẹ một cái là chi phí quảng cáo tăng gấp đôi, bao nhiêu kinh nghiệm cũ trở nên vô dụng.",
+      "Dễ bị vắt kiệt sức lực: Luôn trong trạng thái phải chạy đua với đối thủ và báo cáo ROI hàng ngày cho sếp."
+    ]
+  }
+]

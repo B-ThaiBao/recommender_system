@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { User, Lock, ArrowRight } from 'lucide-react';
+import { ENDPOINTS } from '../config/api';
+import { storeAuthSession } from '../lib/auth';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -12,11 +14,25 @@ const Login = () => {
         e.preventDefault();
         setError('');
 
-        // Mock Login for MVP
-        if (username === 'student' && password === '123456') {
+        try {
+            const response = await fetch(ENDPOINTS.auth.login, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            if (!response.ok) {
+                const payload = await response.json().catch(() => ({}));
+                throw new Error(payload.detail || 'Invalid username or password');
+            }
+
+            const payload = await response.json();
+            storeAuthSession(payload);
             navigate('/');
-        } else {
-            setError('Invalid username or password');
+        } catch (err) {
+            setError(err.message || 'Login failed');
         }
     };
 

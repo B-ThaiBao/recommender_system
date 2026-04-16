@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "smoke:test": "node scripts/smoke-test.mjs",
+    "verify:services": "docker compose up -d --build && node scripts/smoke-test.mjs"
+  },
+  "dependencies": {
+    "react-markdown": "^10.1.0"
+  }
+}

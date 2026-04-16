@@ -1,44 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-silver-50: #fcfcfd;
-  --color-silver-100: #f4f5f8;
-  --color-silver-200: #e5e7eb;
-  --color-silver-300: #d7dadf;
-  --color-silver-400: #9ca3af;
-  --color-silver-500: #6b7280;
-  --color-silver-600: #4b5563;
-  --color-silver-800: #27272a;
-  --color-silver-900: #18181b;
+  --color-slate-50: #fafafa;
+  --color-slate-100: #f4f1ea;
+  --color-slate-200: #e6dfd2;
+  --color-slate-300: #d4c9bb;
+  --color-slate-400: #9f9587;
+  --color-slate-500: #71685c;
+  --color-slate-700: #45403b;
+  --color-slate-800: #2b2622;
+  --color-slate-900: #171412;
 
-  --color-pastel-pink: #ffe4e6;
-  --color-pastel-pinkLight: #fff1f2;
-  --color-pastel-pinkDeep: #fda4af;
-  --color-pastel-purple: #f3e8ff;
-  --color-pastel-blue: #e0f2fe;
-  --color-pastel-glow: rgba(255, 228, 230, 0.5);
+  --color-sand-50: #fffdf9;
+  --color-sand-100: #f9f3e8;
+  --color-sand-200: #f0e1c8;
+  --color-sand-300: #e4cda3;
+  --color-sand-400: #d7b47d;
+  --color-coral-100: #fde7df;
+  --color-coral-200: #f9cfc0;
+  --color-coral-400: #e68063;
+  --color-coral-500: #d55e41;
+  --color-teal-100: #dff4ef;
+  --color-teal-400: #46a88d;
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-gradient-to-br from-pastel-pinkLight via-silver-100 to-pastel-blue min-h-screen text-silver-800 antialiased selection:bg-pastel-pinkDeep selection:text-white;
+    @apply min-h-screen antialiased text-slate-800;
+    font-family: 'Manrope', 'Segoe UI', sans-serif;
+    background:
+      radial-gradient(circle at top left, rgba(214, 94, 65, 0.14), transparent 30%),
+      radial-gradient(circle at 85% 15%, rgba(70, 168, 141, 0.16), transparent 28%),
+      linear-gradient(135deg, #fffdf9 0%, #f4f1ea 42%, #ede7de 100%);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  }
+
+  ::selection {
+    background: #d55e41;
+    color: white;
   }
 }
 
 @layer utilities {
+  .page-transition {
+    animation: page-enter 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
   .glass-card {
-    @apply bg-white/70 backdrop-blur-xl border border-white/50 shadow-lg shadow-silver-200/50;
+    @apply bg-white/72 backdrop-blur-xl border border-white/70 shadow-[0_20px_70px_rgba(41,31,20,0.08)];
+  }
+
+  .glass-panel {
+    @apply bg-white/55 backdrop-blur-xl border border-white/60 shadow-[0_20px_55px_rgba(41,31,20,0.06)];
   }
 
   .glass-input {
-    @apply bg-white/50 border border-white/50 focus:bg-white focus:border-pastel-pinkDeep/50 transition-all duration-300 placeholder:text-silver-400;
+    @apply bg-white/70 border border-white/70 focus:bg-white focus:border-coral-400/40 transition-all duration-300 placeholder:text-slate-400;
   }
 
   .btn-primary {
-    @apply bg-gradient-to-r from-silver-800 to-silver-600 text-white shadow-lg shadow-silver-400/30 hover:shadow-silver-400/50 hover:scale-[1.02] active:scale-95 transition-all duration-300;
+    @apply bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 text-white shadow-[0_18px_30px_rgba(43,38,34,0.18)] hover:shadow-[0_20px_36px_rgba(43,38,34,0.24)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300;
   }
 
   .btn-pastel {
-    @apply bg-white/80 text-silver-800 hover:bg-white shadow-sm hover:shadow-md border border-white/60 transition-all;
+    @apply bg-white/85 text-slate-800 hover:bg-white shadow-sm hover:shadow-md border border-white/70 transition-all;
+  }
+
+  .page-shell {
+    @apply relative overflow-hidden;
+  }
+
+  .page-shell::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(rgba(43, 38, 34, 0.05) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent 80%);
+    opacity: 0.55;
+  }
+}
+
+@keyframes page-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.995);
+    filter: blur(4px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
   }
 }
